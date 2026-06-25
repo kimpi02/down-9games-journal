@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九游 · 稳定入口与使用说明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f6f7f9;
+            color: #1e1f24;
+            line-height: 1.7;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(145deg, #12131a 0%, #1f212b 100%);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            color: #e4e6ed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: -20%;
+            width: 70%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(68, 130, 255, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            color: #f0f2f7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .sub {
+            font-size: 1.1rem;
+            color: #b0b6c9;
+            max-width: 600px;
+            margin: 0.5rem auto 0;
+            position: relative;
+            z-index: 1;
+            font-weight: 350;
+        }
+
+        .hero .short-line {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.5rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 80px;
+            font-size: 0.9rem;
+            color: #cdd1e0;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(2px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 浅色正文区 */
+        .content {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 3rem 1.8rem 4.5rem;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .intro-text {
+            font-size: 1.05rem;
+            color: #2c2e38;
+            margin-bottom: 2.2rem;
+        }
+
+        .intro-text p {
+            margin-bottom: 1.25rem;
+        }
+
+        .intro-text a {
+            color: #2b6ad0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .intro-text a:hover {
+            border-bottom-color: #2b6ad0;
+            color: #1a4b99;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 2.2rem 0 2.6rem;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 1.8rem;
+        }
+
+        .feature-list li {
+            background: #f3f5fa;
+            padding: 1rem 1.2rem 1rem 1.8rem;
+            border-radius: 14px;
+            position: relative;
+            font-size: 0.98rem;
+            color: #1f212b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: background 0.2s;
+        }
+
+        .feature-list li:hover {
+            background: #edeff6;
+        }
+
+        .feature-list li::before {
+            content: "·";
+            position: absolute;
+            left: 0.7rem;
+            top: 0.9rem;
+            color: #2b6ad0;
+            font-weight: bold;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .scene-box {
+            background: #f9fafc;
+            border-left: 4px solid #2b6ad0;
+            padding: 1.5rem 1.8rem;
+            margin: 2rem 0 2.4rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .scene-box p {
+            margin-bottom: 0.5rem;
+        }
+
+        .scene-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-mini {
+            margin: 2.2rem 0 1.2rem;
+        }
+
+        .faq-mini h3 {
+            font-size: 1.2rem;
+            font-weight: 450;
+            margin-bottom: 1rem;
+            color: #1e1f24;
+        }
+
+        .faq-mini details {
+            margin-bottom: 0.7rem;
+            border-bottom: 1px solid #e8ebf0;
+            padding-bottom: 0.6rem;
+        }
+
+        .faq-mini summary {
+            font-weight: 450;
+            cursor: pointer;
+            padding: 0.4rem 0;
+            color: #1f212b;
+            font-size: 0.98rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .faq-mini summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-mini summary::before {
+            content: "▹";
+            margin-right: 0.7rem;
+            color: #2b6ad0;
+            transition: transform 0.2s;
+        }
+
+        .faq-mini details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .faq-mini .answer {
+            padding: 0.6rem 0 0.6rem 1.6rem;
+            color: #3b3e4c;
+            font-size: 0.94rem;
+        }
+
+        .ending {
+            margin-top: 2.8rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid #e2e5ec;
+            font-size: 0.96rem;
+            color: #505463;
+            text-align: left;
+            line-height: 1.7;
+        }
+
+        .ending a {
+            color: #2b6ad0;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .ending a:hover {
+            border-bottom-color: #2b6ad0;
+        }
+
+        @media (max-width: 680px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .sub {
+                font-size: 1rem;
+            }
+            .content {
+                padding: 2rem 1.2rem 3.5rem;
+            }
+            .feature-list {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .hero {
+                padding: 3.5rem 1.2rem 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero .short-line {
+                font-size: 0.8rem;
+                padding: 0.3rem 1.2rem;
+            }
+            .intro-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>九游 · 一处入口</h1>
+        <div class="sub">页面简洁，路径稳定，无需反复寻找</div>
+        <span class="short-line">打开即用，保持习惯</span>
+    </section>
+
+    <div class="content">
+
+        <div class="intro-text">
+            <p>
+                开始使用一个平台之前，最在意的往往是入口是否清晰、地址是否固定。
+                <a href="https://down-9games.com.cn">九游</a> 一直保持着一个相对直接的方式——页面没有频繁变动的跳转链，也没有层层叠叠的中间页。你记住一个地方，下次来时，还是老样子。
+            </p>
+            <p>
+                这种稳定感在很多时候意味着节省时间。尤其当你只是想快速找到某个内容，或者只是回来看看有没有更新时，一个不会走样的入口反而最可贵。
+            </p>
+        </div>
+
+        <ul class="feature-list">
+            <li>页面结构变动少，长期可用</li>
+            <li>不需要额外注册即可浏览基础内容</li>
+            <li>适配手机与电脑，布局统一</li>
+            <li>链接指向清晰，不易混淆</li>
+            <li>无强制跳转或弹窗干扰</li>
+            <li>更新说明放在显眼位置</li>
+        </ul>
+
+        <div class="scene-box">
+            <p><strong>一个常见场景：</strong></p>
+            <p>你有一阵子没打开过这个网站，凭着记忆输入地址，页面还是你熟悉的样子。没有突然改版让你找不到功能，也没有陌生的大图广告遮住主要内容。这就是所谓“稳定的入口”——有时候它不需要多惊艳，但需要可靠。</p>
+        </div>
+
+        <div class="faq-mini">
+            <h3>常见疑问摘要</h3>
+            <details>
+                <summary>页面地址会不会经常变化？</summary>
+                <div class="answer">据目前情况看，<a href="https://down-9games.com.cn">九游</a> 的主页域名和路径一直保持稳定，没有短期频繁更换的记录。建议将链接加入浏览器书签，以备不时之需。</div>
+            </details>
+            <details>
+                <summary>移动端浏览体验如何？</summary>
+                <div class="answer">页面在手机浏览器上会自动适配宽度，文字和按钮大小适中，不需要频繁缩放。基本操作与桌面端一致。</div>
+            </details>
+            <details>
+                <summary>是否需要在页面内注册账号？</summary>
+                <div class="answer">浏览公开信息和使用基础导航都不需要登录。部分功能或下载可能涉及后续步骤，页面会有相应说明。</div>
+            </details>
+        </div>
+
+        <div class="ending">
+            <p>
+                说到底，一个网站的价值往往不在于它用了多少特效，而在于你每次想找它的时候，它都在老地方等你。
+                <a href="https://down-9games.com.cn">九游</a> 便是这样一个存在——它的页面不复杂，但足够稳定。如果你偶尔需要回来看看，记住这个地址就够了。
+            </p>
+            <p style="margin-top: 1rem; color: #6a6f80;">—— 以不变应万变，或许就是最简单的入口哲学。</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
