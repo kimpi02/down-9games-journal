@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>说球帝 · 赛事资料整理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f5f7;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.65;
+            color: #1e2a3a;
+            padding: 24px 20px 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrapper {
+            max-width: 1040px;
+            width: 100%;
+        }
+
+        /* 杂志式横幅 —— 双栏错位背景 */
+        .hero {
+            margin-bottom: 48px;
+            padding: 40px 32px 52px;
+            position: relative;
+            background: #f9fafb;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e6e9f0;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at 30% 30%, #dee5f0, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle at 70% 40%, #d5dde8, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #17212b;
+            margin-bottom: 10px;
+            display: inline-block;
+            border-left: 5px solid #2d4b6c;
+            padding-left: 20px;
+        }
+
+        .hero .sub {
+            font-size: 1.05rem;
+            color: #3b4d62;
+            max-width: 480px;
+            margin-top: 8px;
+            padding-left: 25px;
+            font-weight: 350;
+        }
+
+        /* 卡片系统 */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 32px 34px;
+            border: 1px solid #e2e7ef;
+            box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.01);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 30px -10px rgba(20, 30, 50, 0.06);
+            border-color: #d0d7e2;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 460;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+            color: #1a293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .badge {
+            display: inline-block;
+            background: #edf1f9;
+            padding: 0 10px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 450;
+            color: #2b425d;
+            line-height: 1.8;
+            margin-left: 4px;
+        }
+
+        .card p {
+            margin-bottom: 14px;
+        }
+
+        .card p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .inset-list {
+            padding-left: 20px;
+            margin: 12px 0 10px;
+            list-style: none;
+        }
+
+        .inset-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 8px;
+            color: #253544;
+        }
+
+        .inset-list li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #5c7190;
+            font-weight: 300;
+        }
+
+        .inline-link {
+            color: #1f4662;
+            text-decoration: none;
+            font-weight: 470;
+            border-bottom: 1px solid #b7c7dd;
+            transition: border-color 0.2s, background 0.2s;
+            padding: 0 2px;
+        }
+
+        .inline-link:hover {
+            border-bottom-color: #1f4662;
+            background: #eaf0fa;
+        }
+
+        /* 尾部区域 */
+        .footer-note {
+            margin-top: 48px;
+            padding: 28px 24px;
+            background: #f0f2f6;
+            border-radius: 60px 20px 20px 20px;
+            border: 1px solid #dbe1eb;
+            text-align: center;
+            font-size: 0.98rem;
+            color: #263952;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-note .sentence {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-note .sentence a {
+            color: #1f3a53;
+            font-weight: 490;
+            border-bottom: 1px solid #859bb3;
+            text-decoration: none;
+            transition: border 0.2s;
+        }
+
+        .footer-note .sentence a:hover {
+            border-bottom-width: 2px;
+            border-color: #1f3a53;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e4eaf3;
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: #203349;
+            letter-spacing: 0.02em;
+            margin: 0 2px;
+        }
+
+        @media (max-width: 620px) {
+            body {
+                padding: 16px 12px 40px;
+            }
+
+            .hero {
+                padding: 28px 20px 36px;
+                border-radius: 24px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                padding-left: 16px;
+                border-left-width: 4px;
+            }
+
+            .hero .sub {
+                font-size: 0.95rem;
+                padding-left: 20px;
+            }
+
+            .card {
+                padding: 24px 20px;
+                border-radius: 20px;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+                flex-wrap: wrap;
+            }
+
+            .footer-note {
+                border-radius: 40px 16px 16px 16px;
+                padding: 22px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 780px) {
+            .card-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 28px;
+            }
+
+            .card-grid .card:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!-- hero 杂志横幅 -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>说球帝 · 索引</h1>
+            <div class="sub">赛事记录、战术笔记与资料整理 —— 从归档到查找，信息脉络逐渐清晰。</div>
+        </div>
+    </div>
+
+    <!-- 卡片式介绍 三段 + 特点 -->
+    <div class="card-grid">
+        <!-- 卡片 1 : 背景说明 + 资料整理视角（较长）全宽 -->
+        <div class="card">
+            <div class="card-title">
+                📁 信息整理的起点
+                <span class="badge">背景</span>
+            </div>
+            <p>任何一项运动的深度洞察，都离不开结构化的资料支撑。<strong>说球帝</strong>最初的构想并非一个资讯流媒体，而是一个面向比赛记录、球队档案与赛程数据的整理节点。从联赛对阵表到球员赛季统计，这些原本散落于不同页面和时段的内容，逐渐被归拢到统一的查阅框架下。</p>
+            <p>在近年的资料聚合尝试中，<a href="https://panel-shuoqiudi.com" class="inline-link">说球帝</a> 所承载的信息类型也在缓慢扩展：从单纯的赛程罗列延伸到阵容变化摘要、杯赛晋级图以及部分历史交锋数据。对于需要快速回溯某个赛季、某轮对阵的使用者而言，这类结构化索引能节省大量反复搜索的精力。</p>
+            <p>资料整理本身并非炫耀数据的堆砌，而是帮助观赛者建立一条可靠的背景线索 —— 知道在哪里查找，比记住全部细节更实际。</p>
+        </div>
+
+        <!-- 卡片 2 : 资料归纳特点 -->
+        <div class="card">
+            <div class="card-title">
+                🧩 多维线索 · 归类
+                <span class="badge">特点</span>
+            </div>
+            <p>平台上的信息并非简单的时间线排列，而是基于赛事阶段、球队分组以及关键节点进行标签式归纳。例如同一轮次的所有对阵汇总、某个杯赛阶段的晋级树状索引，或者跨赛季的同一对手交锋记录。</p>
+            <ul class="inset-list">
+                <li>联赛与杯赛的独立归档，减少信息混杂</li>
+                <li>战术阶段关键词标记，便于快速定位特定时期</li>
+                <li>可回溯的赛季面板，保持资料的历史连续性</li>
+            </ul>
+            <p>这种分类方式更接近研究者的查阅习惯：先确定范围，再深入细节。资料的长期可用性比短期更新速度更值得关注。</p>
+        </div>
+
+        <!-- 卡片 3 : 使用场景 / 信息查找 -->
+        <div class="card">
+            <div class="card-title">
+                🔍 查找场景例举
+                <span class="badge">场景</span>
+            </div>
+            <p>当你想回顾某支球队在某个赛季的完整联赛赛程，或者对比两支队伍近五次交手的比赛日期与场地，一个结构化的信息索引能直接提供答案，而非依靠零散的新闻片段。</p>
+            <p>日常使用中，不少人习惯在赛前快速核对阵容名单、查看近期战绩走势，或者整理自己关注球队的对阵日历。<a href="https://panel-shuoqiudi.com" class="inline-link">说球帝</a> 在这类场景下扮演的是资料库的角色，不制造信息焦虑，只提供查阅路径。</p>
+            <p>此外，跨赛季的数据对照、杯赛轮次晋级关系，也适合通过统一面板来梳理。信息索引的价值在于让人更快地回到比赛本身，而不是停留在搜索过程里。</p>
+        </div>
+
+        <!-- 卡片 4 : 简要 FAQ / 关于资料边界 -->
+        <div class="card">
+            <div class="card-title">
+                📌 资料边界与更新
+                <span class="badge">FAQ</span>
+            </div>
+            <p><strong>问：</strong> 整理范围包含哪些赛事？<br>
+            <strong>答：</strong> 以主流联赛及洲际俱乐部赛事为主，同时收录部分杯赛与国家队周期赛事，具体赛历以实际可获取的公开信息为准。</p>
+            <p><strong>问：</strong> 数据的更新周期？<br>
+            <strong>答：</strong> 信息整理通常在每轮/每个比赛阶段结束后进行统一归档，并非实时滚动。对于赛前预览类资料，会提前一个周期发布框架。</p>
+            <p><strong>问：</strong> 是否需要登录才能查阅？<br>
+            <strong>答：</strong> 索引面板的大部分内容可直接查阅，部分整理功能视后续规划而定。资料透明是整理的基本原则。</p>
+        </div>
+    </div>
+
+    <!-- 页尾访问提示 —— 自然融入链接，不带“进入、点击”等词 -->
+    <div class="footer-note">
+        <div class="sentence">
+            如果你需要整理联赛赛程、球队档案或杯赛晋级脉络，不妨在 <a href="https://panel-shuoqiudi.com">说球帝</a> 的资料面板中检索已经归档的信息。从赛季初的阵容列表到淘汰赛阶段的轮次树，索引本身即是一种辅助工具，帮助观赛者将注意力放回赛场。
+        </div>
+        <div style="margin-top: 20px; font-size: 0.82rem; color: #405b77;">
+            <span class="tag">归档</span>
+            <span class="tag">赛历</span>
+            <span class="tag">对阵索引</span>
+            <span class="tag">信息节点</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
